@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    ports:
+      - "8008:8008"
+    volumes:
+      - ./config.json:/app/config.json:ro
+      - ./kitten_tts_mini_v0_8.onnx:/app/kitten_tts_mini_v0_8.onnx:ro
+      - ./voices.npz:/app/voices.npz:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: uvicorn main:app --host 0.0.0.0 --port 8008 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8008
+    depends_on:
+      - backend
+    command: npm run dev

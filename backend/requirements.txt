@@ -1,0 +1,32 @@
+# Kitten TTS Web Application - Backend Requirements (CPU-Optimized)
+
+# Web framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# Audio processing
+soundfile>=0.12.1
+numpy>=1.24.0
+
+# CORS support
+python-dotenv>=1.0.0
+
+# ONNX Runtime (CPU only - much smaller than GPU version)
+onnxruntime>=1.16.0
+
+# Utilities
+pydantic>=2.5.0
+
+# Phonemizer (for kittentts)
+# Use phonemizer-fork to match misaki[en] runtime expectations.
+phonemizer-fork>=3.3.2
+espeakng-loader>=0.1.0
+
+# KittenTTS dependencies
+misaki>=0.9.0
+num2words>=0.5.0
+spacy>=3.7.0
+
+# Note: Install kittentts manually after installing above dependencies:
+# python -m pip install https://github.com/KittenML/KittenTTS/releases/download/0.8/kittentts-0.8.0-py3-none-any.whl --no-deps
